@@ -78,13 +78,17 @@ namespace AppiumArchive7ZipTest
 
             var okButton = winArch.FindElementByXPath("/Window/Button[@Name='OK']");
             okButton.Click();
-            Thread.Sleep(1000);
 
             inputFilePath.SendKeys(tempDir + @"\archive.7z" + Keys.Enter);
 
-            var extractButton = driver.FindElementByName("Extract");
-            extractButton.Click();
+             var wait = new WebDriverWait(driver, TimeSpan.FromSeconds(5));
 
+            var buttonExtract = wait.Until<IWebElement>(d => {
+                return d.FindElement(By.Name("Extract"));
+            });
+            
+             buttonExtract.Click();
+            
             var inputCopyto = driver.FindElementByXPath("/Window/Window/ComboBox/Edit[@Name='Copy to:']");
             inputCopyto.SendKeys(tempDir + Keys.Enter);
             Thread.Sleep(1000);
